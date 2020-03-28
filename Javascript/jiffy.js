@@ -81,9 +81,9 @@ const doSearch = event => {
 
 const clearSearch = event => {
   document.body.classList.remove('has-results')
-  videosEl.innerHTML = " "
-  hintEl.innerHTML = " "
-  searchEl.value = " "
+  videosEl.innerHTML = ''
+  hintEl.innerHTML = ''
+  searchEl.value = ''
   searchEl.focus()
 
 }

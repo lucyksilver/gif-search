@@ -1,75 +1,105 @@
 window.onload = function(){
 
-  const API_KEY = 'Rl74dhAepP1MkjMT6wCrpClhDEscJXd3'
+const API_KEY = 'Rl74dhAepP1MkjMT6wCrpClhDEscJXd3'
+const searchEl = document.querySelector('.search-input')
+const hintEl = document.querySelector('.search-hint')
+const videosEl = document.querySelector('.videos')
+const clearEl = document.querySelector('.search-clear')
 
-  const searchEl = document.querySelector('.search-input')
 
-  const hintEl = document.querySelector('.search-hint')
-
-function createVideo(src) {
-
+const createVideo = src => {
   const video = document.createElement('video')
   video.src = src
-  video.muted = true
   video.autoplay = true
   video.loop = true
-  video.className = "video"
-
+  video.className = 'video'
   return video
 }
+const randomChoice = arr => {
+  const randIndex = Math.floor(Math.random() * arr.length)
+  return arr[randIndex]
+}
 
-  const randomChoice = arr => {
-    const randIndex = Math.floor(Math.random() * arr.length);
-    return arr[randIndex];
-};
+const toggleLoading = state => {
+  if (state) {
+    document.body.classList.add('loading')
+    searchEl.disabled = true
+  } else {
+    document.body.classList.remove('loading')
+    searchEl.disabled = false
+    searchEl.focus()
+  }
+}
 
-const searchGify = searchTerm => {
+const searchGiphy = searchTerm => {
+  toggleLoading(true)
 
-  fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchTerm}&limit=50&offset=0&rating=G&lang=en`).then(response => {
-    // Convert to JSON
-    return response.json();
-  }).then(j => {
+  fetch(
+    `https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchTerm}&limit=50&offset=0&rating=PG-13&lang=en`
+  )
 
-    const gif = randomChoice(j.data)
-    const src = gif.images.original.mp4
+    .then(response => {
+      return response.json()
+    })
+    .then(json => {
+      const gif = randomChoice(json.data)
+      const src = gif.images.original.mp4
+      const video = createVideo(src)
 
-    const video = createVideo(src)
+      videosEl.appendChild(video)
 
 
-    const videosEl = document.querySelector('.videos')
-    videosEl.appendChild(video)
-  })
+      video.addEventListener('loadeddata', event => {
+        video.classList.add('visible')
+        toggleLoading(false)
+        document.body.classList.add('has-results')
+        hintEl.innerHTML = `Hit enter to search more ${searchTerm}`
+      })
+    })
     .catch(error => {
-
+      toggleLoading(false)
+      hintEl.innerHTML = `Nothing found for ${searchTerm}`
     })
 }
 
-// hello
+const doSearch = event => {
+
+  const searchTerm = searchEl.value
+
+  if (searchTerm.length > 2) {
+    hintEl.innerHTML = `Hit enter to search ${searchTerm}`
+    document.body.classList.add('show-hint')
+  } else {
+    document.body.classList.remove('show-hint')
+  }
+
+  if (event.key === 'Enter' && searchTerm.length > 2) {
+
+    searchGiphy(searchTerm)
+  }
+}
+
+const clearSearch = event => {
+  document.body.classList.remove('has-results')
+  videosEl.innerHTML = " "
+  hintEl.innerHTML = " "
+  searchEl.value = " "
+  searchEl.focus()
+
+}
+
+document.addEventListener('keyup', event => {
+
+  if (event.key === 'Escape') {
+    clearSearch()
+  }
+})
 
 
+searchEl.addEventListener('keyup', doSearch)
+clearEl.addEventListener('click', clearSearch)
 
-  const doSearch = event => {
-
-    const searchTerm = searchEl.value
-
-    if(searchTerm.length > 2) {
-      document.body.classList.add('show-hint')
-      hintEl.innerHTML = `Hit enter to search ${searchTerm}`
-
-      } else {
-
-        document.body.classList.remove('show-hint')
-      }
-
-    if(event.key === 'Enter' && searchTerm.length > 2) {
-    searchGify(searchTerm)
-      }
   };
-
-    searchEl.addEventListener('keyup', doSearch);
-
-  };
-
 
 
 

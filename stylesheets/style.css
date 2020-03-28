@@ -1,7 +1,6 @@
 body {
-  background-color: #000;
+  background-color: #002f46;
   color: #fff;
-  font-family: 'Helvetica Neue', sans-serif;
   font-size: 24px;
   font-weight: bold;
   line-height: 1.5;
@@ -9,6 +8,7 @@ body {
   font-weight: bold;
   min-height: 80vh;
   display: flex;
+  font-family: 'Lora', serif;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -25,6 +25,7 @@ input {
   outline: none;
   text-align: center;
   color:  white;
+  font-family: 'Lora', serif;
 }
 
 .search-input {
@@ -32,18 +33,25 @@ input {
 }
 
 .search-input::placeholder {
-  color: #323232;
+  color: rgba(255,255,255, 0.3);
+  font-family: 'Lora', serif;
 }
 
 .search-clear,
 .spinner {
   transition: opacity 0.5s ease;
   opacity: 0;
-  pointer-events: none;
+
 }
 
 .search-clear {
   cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+.title {
+  position: relative;
+  z-index: 1;
 }
 
 .videos, .middle, .grid {
@@ -53,28 +61,67 @@ input {
 
 .video {
   grid-area: 1/1;
-  max-width: 500px;
+  max-width: 350px;
+  max-height: 350px;
   display: block;
 }
 
-.search-input, .videos, .full-area{
+.search-input,
+.videos,
+.full-area {
   grid-area: 1/1;
 }
 
-.search-hint {
+.search-hint,
+.spinner {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
 
-/*toggling in the show hint on the body, when we have that, we then make the opacity 1 of search hint*/
-
-.show-hint .search-hint {
+.show-hint .search-hint,
+.loading .spinner,
+.has-results .search-clear,
+.title {
   opacity: 1;
 }
 
+.loading .search-hint,
+.has-results .title {
+  opacity: 0;
+}
 
+.title {
+  transition: opacity 0.5s ease;
+}
 
+/* responsive styles  */
+.video {
+  width: 100%;
+}
 
+.videos {
+  width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.search-input {
+  width: 94vw;
+  line-height: 1;
+  height: 88px;
+}
+
+@media (max-width: 480px) {
+
+  body {
+    font-size: 18px;
+  }
+
+  .search-input {
+    font-size: 32px;
+  }
+
+}
 
 
 

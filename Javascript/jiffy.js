@@ -66,14 +66,14 @@ const doSearch = event => {
 
   const searchTerm = searchEl.value
 
-  if (searchTerm.length > 2) {
+  if (searchTerm.length > 1) {
     hintEl.innerHTML = `Hit enter to search ${searchTerm}`
     document.body.classList.add('show-hint')
   } else {
     document.body.classList.remove('show-hint')
   }
 
-  if (event.key === 'Enter' && searchTerm.length > 2) {
+  if (event.key === 'Enter' && searchTerm.length > 1) {
 
     searchGiphy(searchTerm)
   }

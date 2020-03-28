@@ -1,0 +1,81 @@
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.5;
+  padding: 3vw 5vh;
+  font-weight: bold;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+  .top, .middle, .indicators {
+    text-align: center;
+    position: relative;
+  }
+
+input {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  outline: none;
+  text-align: center;
+  color:  white;
+}
+
+.search-input {
+  font-size: 72px;
+}
+
+.search-input::placeholder {
+  color: #323232;
+}
+
+.search-clear,
+.spinner {
+  transition: opacity 0.5s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.search-clear {
+  cursor: pointer;
+}
+
+.videos, .middle, .grid {
+  display: grid;
+  place-items: center;
+}
+
+.video {
+  grid-area: 1/1;
+  max-width: 500px;
+  display: block;
+}
+
+.search-input, .videos, .full-area{
+  grid-area: 1/1;
+}
+
+.search-hint {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/*toggling in the show hint on the body, when we have that, we then make the opacity 1 of search hint*/
+
+.show-hint .search-hint {
+  opacity: 1;
+}
+
+
+
+
+
+
+
+
